@@ -18,7 +18,7 @@ class CreateMDivisisTable extends Migration
             $table->string('division_name',100)->unique();
             $table->integer('parent')->unsigned()->nullable();
             // foreign ke master direksi
-            //$table->integer('direktorat_id')->unsigned()->nullable();
+            $table->integer('direktorat_id')->unsigned()->nullable();
             $table->integer('kadiv_id')->unsigned()->nullable(); 
             $table->timestamps();
             $table->softDeletes();
