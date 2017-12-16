@@ -16,6 +16,8 @@ class CreateMTipeDokumensTable extends Migration
         Schema::create('m_tipe_dokumens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
+            $table->string('code');
+
             $table->timestamps();
         });
     }
