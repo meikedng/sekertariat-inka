@@ -7,10 +7,10 @@
   <form action="{{ route('login') }}" method="POST">
     {{ csrf_field() }}
     <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
-      <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+      <input id="nip" type="text" class="form-control" name="nip" value="{{ old('nip') }}" placeholder="Email" required autofocus>
       <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      @if ($errors->has('email'))
-      <span class="help-block">{{ $errors->first('email') }}</span>
+      @if ($errors->has('nip'))
+      <span class="help-block">{{ $errors->first('nip') }}</span>
       @endif
     </div>
     <div class="form-group has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">

@@ -18,6 +18,7 @@ class CreateTStatusTujuanDokumensTable extends Migration
             $table->integer('tujuan_dokumen_id')->unsigned();
             $table->integer('status_tujuan_id')->unsigned();
             $table->string('keterangan')->nnullable();
+            $table->date('tgl_status');
             $table->timestamps();
             $table->softDeletes();
 

@@ -19,7 +19,7 @@ class CreateTDokumensTable extends Migration
             $table->date('tgl_masuk');
             $table->string('nomor_dokumen');
             $table->string('nomor_referensi')->nullable();
-            $table->string('nama_dokumen');
+            $table->string('nama_dokumen')->nullable();
             $table->string('perihal');
             $table->string('pengirim');
             $table->date('tgl_dok_referensi')->nullable();

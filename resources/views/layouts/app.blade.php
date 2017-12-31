@@ -13,6 +13,13 @@
       <i class="fa fa-home"></i>
       <span>Home</span>
     </a>
+
+    <a href="{{ route('sm_eksternal.index') }}">
+      <i class="fa fa-home"></i>
+      <span>Surat Masuk Eksternal</span>
+    </a>
   </li>
 </ul>
 @endsection
+
+@yield('scripts')
