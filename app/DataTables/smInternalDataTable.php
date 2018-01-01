@@ -10,7 +10,7 @@ use App\mSekdir;
 use App\mDireksi;
 use App\tTujuanDokumen;
 
-class smEksternalDataTable extends DataTable
+class smInternalDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,17 +19,15 @@ class smEksternalDataTable extends DataTable
      */
     public function ajax()
     {
-       return $this->datatables
+        return $this->datatables
             ->eloquent($this->query())
             ->addColumn('show', function($doc){
                 return view ('datatable._show',[
                     'model'    => $doc,
-                    'show_url' => route('doc.show', ['sm_eksternal',$doc->id]),
+                    'show_url' => route('doc.show', ['sm_internal',$doc->id]),
                 ]);
             })
-
             ->rawColumns(['show'])
-
             ->make(true);
     }
 
@@ -45,12 +43,12 @@ class smEksternalDataTable extends DataTable
         
         $query = tTujuanDokumen::with('dokumen','direksi')
                     ->whereHas('dokumen',function ($q){
-                        $q->where('tipe_dok_id',2);
+                        $q->where('tipe_dok_id',1);
                     })
                     ->whereHas('direksi',function ($q) use ($direksi){
                         $q->whereIn('id',$direksi->pluck('direksi_id'));
                     });
-                    
+
         return $this->applyScopes($query);
     }
 
@@ -67,7 +65,7 @@ class smEksternalDataTable extends DataTable
             (['data' => 'dokumen.nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            // (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
@@ -92,7 +90,7 @@ class smEksternalDataTable extends DataTable
             (['data' => 'dokumen.nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            // (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
@@ -108,6 +106,6 @@ class smEksternalDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'smeksternal_' . time();
+        return 'sminternal_' . time();
     }
 }

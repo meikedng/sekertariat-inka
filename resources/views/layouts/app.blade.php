@@ -18,6 +18,17 @@
       <i class="fa fa-home"></i>
       <span>Surat Masuk Eksternal</span>
     </a>
+
+    <a href="{{ route('sm_internal.index') }}">
+      <i class="fa fa-home"></i>
+      <span>Surat Masuk Internal</span>
+    </a>
+
+    <a href="{{ route('memo_internal.index') }}">
+      <i class="fa fa-home"></i>
+      <span>Memo Internal</span>
+    </a>
+
   </li>
 </ul>
 @endsection

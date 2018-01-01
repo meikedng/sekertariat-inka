@@ -164,7 +164,6 @@ class SuratMasukEksternalController extends Controller
     public function show(Request $request, Builder $htmlBuilder,$tujuan_id)
     {
         $tujuan_doc = tTujuanDokumen::where('id',$tujuan_id)->first();
-        // dd($tujuan_doc);
         $dokumen = tDokumen::find($tujuan_doc->dokumen_id);
         
         if ($tujuan_doc->urutan_ke==1)
@@ -174,7 +173,7 @@ class SuratMasukEksternalController extends Controller
                                     ->where('status_tujuan_id',4)
                                     ->count();
         }
-
+        
         elseif($tujuan_doc->urutan_ke >1){
             if($dokumen->is_circular == 0){
                 $urutan = $tujuan_doc->urutan_ke;

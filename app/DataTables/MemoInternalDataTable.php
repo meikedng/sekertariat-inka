@@ -10,7 +10,8 @@ use App\mSekdir;
 use App\mDireksi;
 use App\tTujuanDokumen;
 
-class smEksternalDataTable extends DataTable
+
+class MemoInternalDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,12 +20,12 @@ class smEksternalDataTable extends DataTable
      */
     public function ajax()
     {
-       return $this->datatables
+        return $this->datatables
             ->eloquent($this->query())
             ->addColumn('show', function($doc){
                 return view ('datatable._show',[
                     'model'    => $doc,
-                    'show_url' => route('doc.show', ['sm_eksternal',$doc->id]),
+                    'show_url' => route('doc.show', ['memo_internal',$doc->id]),
                 ]);
             })
 
@@ -45,16 +46,15 @@ class smEksternalDataTable extends DataTable
         
         $query = tTujuanDokumen::with('dokumen','direksi')
                     ->whereHas('dokumen',function ($q){
-                        $q->where('tipe_dok_id',2);
+                        $q->where('tipe_dok_id',3);
                     })
                     ->whereHas('direksi',function ($q) use ($direksi){
                         $q->whereIn('id',$direksi->pluck('direksi_id'));
                     });
-                    
+             
         return $this->applyScopes($query);
     }
-
-    /**
+/**
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\Datatables\Html\Builder
@@ -101,6 +101,7 @@ class smEksternalDataTable extends DataTable
         ];
     }
 
+
     /**
      * Get filename for export.
      *
@@ -108,6 +109,6 @@ class smEksternalDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'smeksternal_' . time();
+        return 'memointernal_' . time();
     }
 }

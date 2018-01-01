@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content-title', 'Tambah Disposisi Dokumen')
+@section('content-title', 'Tambah Memo Internal')
 @section('content-subtitle', 'Dashboard')
 
 @section('content')
@@ -8,17 +8,17 @@
     <div class="col-md-12">
         <ul class = "breadcrumb">
             <li> <a href = "{{ url('/home') }}"> Dashboard</a>
-            <li> <a href = "{{ route($route.'.index') }}"> {!! $text!!}</a>
-            <li class= "active"> Tambah Disposisi Dokumen</li>
+            <li> <a href = "{{ route('memo_internal.index') }}"> Memo Internal</a>
+            <li class= "active"> Tambah Memo Internal </li>
         </ul>
     <div class="box box-primary">
         <div class="box-header">
-            <h3 class="box-title">Tambah Disposisi Dokumen</h3>
+            <h3 class="box-title">Tambah Memo Internal</h3>
         </div>
         <div class="box-body">
-            {!! Form::open(['url' => route('doc.store_disposisi',[$route,$tujuan_id]),
+            {!! Form::open(['url' => route('memo_internal.store'),
                 'method' => 'post' , 'files' => 'true' , 'class' => 'form-horizontal']) !!}
-                @include('dokumen._form_disposisi')
+                @include('memo_internal._form')
 
             {!! Form::close() !!}
         </div>

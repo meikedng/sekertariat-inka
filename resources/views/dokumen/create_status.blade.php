@@ -8,7 +8,7 @@
     <div class="col-md-12">
         <ul class = "breadcrumb">
             <li> <a href = "{{ url('/home') }}"> Dashboard</a>
-            <li> <a href = "{{ route('sm_eksternal.index') }}"> Surat Masuk Eksternal</a>
+            <li> <a href = "{{ route($route.'.index') }}"> {!! $text!!}</a>
             <li class= "active"> Tambah Status Dokumen</li>
         </ul>
     <div class="box box-primary">
@@ -16,7 +16,7 @@
             <h3 class="box-title">Tambah Status Dokumen</h3>
         </div>
         <div class="box-body">
-            {!! Form::open(['url' => route('doc.store_status',['sm_eksternal',$tujuan_id]),
+            {!! Form::open(['url' => route('doc.store_status',[$route,$tujuan_id]),
                 'method' => 'post' , 'files' => 'true' , 'class' => 'form-horizontal']) !!}
                 @include('dokumen._form_status')
 
