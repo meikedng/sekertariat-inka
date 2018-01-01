@@ -19,4 +19,6 @@ class tDokumen extends Model
     public function tujuan(){
         return $this->hasMany('App\tTujuanDokumen','dokumen_id','id');
     }
+
+    
 }

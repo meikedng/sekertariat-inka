@@ -22,11 +22,19 @@ Route::resource('sm_eksternal','SuratMasukEksternalController');
 Route::resource('sm_internal','SuratMasukInternalController');
 Route::resource('memo_internal','MemoInternalController');
 Route::resource('document_process','DokumenController');
+Route::resource('monitoring_dokumen','MonitoringDokumenController');
+
+Route::get('/monitoring/{route_doc}',[
+    'as' => 'monitoring.show',
+    'uses' => 'MonitoringDokumenController@showTipeDoc']);
+
+Route::get('/monitoring/{route_doc}/disposisi',[
+    'as' => 'monitoring.show_disposisi',
+    'uses' => 'MonitoringDokumenController@showDisposisi']);
 
 Route::get('/dokumen/{route_doc}/show/{tujuan_id}',[
     'as' => 'doc.show',
     'uses' => 'DokumenController@show']);
-
 
 Route::get('/dokumen/{route_doc}/create_status/{tujuan_id}',[
     'as' => 'doc.create_status',

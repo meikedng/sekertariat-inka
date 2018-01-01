@@ -25,4 +25,9 @@ class tDisposisiDokumen extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function tujuan(){
+        return $this->belongsTo
+        ('App\tTujuanDokumen','dest_doc_id','id');
+    }
+
 }

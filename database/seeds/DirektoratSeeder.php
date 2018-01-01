@@ -15,7 +15,7 @@ class DirektoratSeeder extends Seeder
     {
         $list_direktorat = ['Direktorat Utama','Direktorat Komersial dan Teknologi',
                 'Direktorat Keuangan dan SDM','Direktorat Produksi'];
-        $dir_code = ['DIRUT','DIRKOMTEK','DIRKKEU','DIRPROD'];
+        $dir_code = ['DIRUT','DIRKOMTEK','DIRKEU','DIRPROD'];
 
         $list_direksi = ['R. Agus H Purnomo','Hendy Hendratno Adji','Muhammad Nur Sodiq',
                 'Yunendar Aryo Handoko'];
