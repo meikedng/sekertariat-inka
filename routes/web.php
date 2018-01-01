@@ -19,19 +19,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('sm_eksternal','SuratMasukEksternalController');
+Route::resource('document_process','DokumenController');
 
-Route::get('/sm_eksternal/create_status/{tujuan_id}',[
-    'as' => 'sme.create_status',
-    'uses' => 'SuratMasukEksternalController@createStatus']);
+Route::get('/dokumen/{route_doc}/create_status/{tujuan_id}',[
+    'as' => 'doc.create_status',
+    'uses' => 'DokumenController@createStatus']);
 
-Route::post('/sm_eksternal/store_status/{tujuan_id}',[
-    'as' => 'sme.store_status',
-    'uses' => 'SuratMasukEksternalController@storeStatus']);
+Route::post('/dokumen/{route_doc}/store_status/{tujuan_id}',[
+    'as' => 'doc.store_status',
+    'uses' => 'DokumenController@storeStatus']);
 
-Route::get('/sm_eksternal/create_disposisi/{tujuan_id}',[
-    'as' => 'sme.create_disposisi',
-    'uses' => 'SuratMasukEksternalController@createDisposisi']);
+Route::get('/dokumen/{route_doc}/create_disposisi/{tujuan_id}',[
+    'as' => 'doc.create_disposisi',
+    'uses' => 'DokumenController@createDisposisi']);
 
-Route::post('/sm_eksternal/store_disposisi/{tujuan_id}',[
-    'as' => 'sme.store_disposisi',
-    'uses' => 'SuratMasukEksternalController@storeDisposisi']);
+Route::post('/dokumen/{route_doc}/store_disposisi/{tujuan_id}',[
+    'as' => 'doc.store_disposisi',
+    'uses' => 'DokumenController@storeDisposisi']);

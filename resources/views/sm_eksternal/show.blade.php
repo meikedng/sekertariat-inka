@@ -52,13 +52,13 @@
                     <div class="row">
                         @if($is_done==0)
                             <div class="col-md-3">
-                                <p> <a class="btn btn-primary" href="{{ route('sme.create_status',[$tujuan_id]) }}">Tambah Status Dokumen</a> </p>
+                                <p> <a class="btn btn-primary" href="{{ route('doc.create_status',['sm_eksternal',$tujuan_id]) }}">Tambah Status Dokumen</a> </p>
                             </div>
                         @endif
 
                         @if($is_done>0)
                             <div class="col-md-3">
-                                <p> <a class="btn btn-success" href="{{ route('sme.create_disposisi',[$tujuan_id]) }}">Tambah Disposisi Dokumen</a> </p>
+                                <p> <a class="btn btn-success" href="{{ route('doc.create_disposisi',['sm_eksternal',$tujuan_id]) }}">Tambah Disposisi Dokumen</a> </p>
                             </div>
                         @endif
                     </div>

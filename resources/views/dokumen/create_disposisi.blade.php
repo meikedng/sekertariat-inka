@@ -9,16 +9,16 @@
         <ul class = "breadcrumb">
             <li> <a href = "{{ url('/home') }}"> Dashboard</a>
             <li> <a href = "{{ route('sm_eksternal.index') }}"> Surat Masuk Eksternal</a>
-            <li class= "active"> Tambah Status Dokumen</li>
+            <li class= "active"> Tambah Disposisi Dokumen</li>
         </ul>
     <div class="box box-primary">
         <div class="box-header">
-            <h3 class="box-title">Tambah Status Dokumen</h3>
+            <h3 class="box-title">Tambah Disposisi Dokumen</h3>
         </div>
         <div class="box-body">
-            {!! Form::open(['url' => route('sme.store_status',[$tujuan_id]),
+            {!! Form::open(['url' => route('doc.store_disposisi',['sm_eksternal',$tujuan_id]),
                 'method' => 'post' , 'files' => 'true' , 'class' => 'form-horizontal']) !!}
-                @include('sm_eksternal._form_status')
+                @include('dokumen._form_disposisi')
 
             {!! Form::close() !!}
         </div>
