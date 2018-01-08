@@ -26,7 +26,21 @@ class MemoInternalController extends Controller
      */
     public function index(MemoInternalDataTable $dataTable)
     {
-        return $dataTable->render('memo_internal.index');
+        $is_sekdirkeu = Auth::user()->hasRole('sek_dirkeu');
+        $is_sekdirut = Auth::user()->hasRole('sek_dirut');
+        $is_sekdirkomtek = Auth::user()->hasRole('sek_dirkomtek');
+        $is_sekdirprod = Auth::user()->hasRole('sek_dirprod');
+
+        if($is_sekdirkeu || $is_sekdirut || $is_sekdirkomtek || $is_sekdirprod)
+        {
+            $create_doc = true;
+        }
+        elseif(!$is_sekdirkeu && !$is_sekdirut && !$is_sekdirkomtek && !$is_sekdirprod) 
+        {
+            $create_doc = false;
+        }
+
+        return $dataTable->render('memo_internal.index', compact('create_doc'));
     }
 
     /**

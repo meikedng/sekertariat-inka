@@ -71,8 +71,7 @@ class smEksternalDataTable extends DataTable
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
+            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])
         ])
         
         ->parameters([
@@ -96,8 +95,7 @@ class smEksternalDataTable extends DataTable
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])            
+            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false, 'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])            
         ];
     }
 

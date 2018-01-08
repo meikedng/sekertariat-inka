@@ -92,6 +92,16 @@
     </script>
 
     <script>
+        $('#datepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            daysOfWeekHighlighted: "0,6",
+            language: "id",
+            autoclose: true,
+            todayHighlight: true
+        });
+    </script>
+
+    <script>
         $('#monthpicker').datepicker({
             format: "yyyy-mm",
             language: "id",

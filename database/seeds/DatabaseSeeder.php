@@ -12,6 +12,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    
+    	$this->call(DirektoratSeeder::class);
+    	$this->call(JabatanSeeder::class);
+    	$this->call(StatusDokumenSeeder::class);
+    	$this->call(StatusTujuanDokumenSeeder::class);
+    	$this->call(UnitSeeder::class);
+    	$this->call(SuperAdminSeeder::class);
+    	$this->call(SuperSekdirSeeder::class);
+    	$this->call(TipeDokumenSeeder::class);
+    	$this->call(UserSeeder::class);
     }
 }
