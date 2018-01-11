@@ -1,3 +1,14 @@
+<div class= "form-group{{ $errors->has('nomor_urut_dokumen') ? 'has-error': '' }} ">
+    {!! Form::label('nomor_urut_dokumen', 'Nomor Urut Dokumen', ['class'=>'col-md-4 control-label']) !!}
+        <div class = "col-md-5">
+            {!! Form::number('nomor_urut_dokumen', null, 
+                [
+                    'class'=>'form-control',
+                    'placeholder'=>'Isi Nomor Urut Dokumen Surat Masuk Internal'
+                ]) !!}
+            {!! $errors->first('nomor_urut_dokumen', '<p class= "help-block">:message</p>') !!}
+        </div>
+</div>
 
 <div class= "form-group{{ $errors->has('tgl_masuk') ? 'has-error': '' }} ">
     {!! Form::label('tgl_masuk', 'Tanggal Masuk Dokumen ', ['class'=>'col-md-4 control-label']) !!}
@@ -70,7 +81,7 @@
     {!! Form::label('first_destination', 'Tujuan Pertama', ['class'=>'col-md-4 control-label']) !!}
     <div class = "col-md-5">
         {!! Form::select ('first_destination', [ '' => '' ]+
-            App\mDireksi::where('id',$first_dest->direksi_id)->pluck('nama_direksi','id')->all(),null,
+            App\mDireksi::where('id',$first_dest->direksi_id)->pluck('jabatan_direksi','id')->all(),null,
         [
             'class' => 'js-selectize',
             'placeholder' => 'Pilih Nama Direksi'
@@ -85,7 +96,7 @@
     <div class = "col-md-5">
         {!! Form::select ('second_destination', [ '' => '' ]+
             App\mDireksi::where('id','<>',$first_dest->direksi_id)
-                ->pluck('nama_direksi','id')->all(),null,
+                ->pluck('jabatan_direksi','id')->all(),null,
         [
             'class' => 'js-selectize',
             'placeholder' => 'Pilih Nama Direksi'
@@ -100,7 +111,7 @@
     <div class = "col-md-5">
         {!! Form::select ('third_destination', [ '' => '' ]+
             App\mDireksi::where('id','<>',$first_dest->direksi_id)
-                ->pluck('nama_direksi','id')->all(),null,
+                ->pluck('jabatan_direksi','id')->all(),null,
         [
             'class' => 'js-selectize',
             'placeholder' => 'Pilih Nama Direksi'
@@ -115,7 +126,7 @@
     <div class = "col-md-5">
         {!! Form::select ('fourth_destination', [ '' => '' ]+
             App\mDireksi::where('id','<>',$first_dest->direksi_id)
-                ->pluck('nama_direksi','id')->all(),null,
+                ->pluck('jabatan_direksi','id')->all(),null,
         [
             'class' => 'js-selectize',
             'placeholder' => 'Pilih Nama Direksi'

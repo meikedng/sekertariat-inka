@@ -44,7 +44,9 @@ class ListDisposisiDokumenDataTable extends DataTable
         ->columns([
             (['data' => 'id', 'name' => 'id' , 'title' => 'ID', 'orderable' => false,'searchable'=> false,'visible'=>false]),
             (['data' => 'tujuan.urutan_ke', 'name' => 'tujuan.urutan_ke' , 'title' => 'Urutan ke-', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tujuan.direksi.jabatan_direksi', 'name' => 'tujuan.direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             
+            // (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
             (['data' => 'disposisi_to', 'name' => 'disposisi_to' , 'title' => 'Kepada', 'orderable' => false,'searchable'=> false]),
             (['data' => 'keterangan', 'name' => 'urutan_ke' , 'title' => 'Keterangan', 'orderable' => false,'searchable'=> false])
         ])
@@ -65,7 +67,9 @@ class ListDisposisiDokumenDataTable extends DataTable
         return [
             (['data' => 'id', 'name' => 'id' , 'title' => 'ID', 'orderable' => false,'searchable'=> false,'visible'=>false]),
             (['data' => 'tujuan.urutan_ke', 'name' => 'tujuan.urutan_ke' , 'title' => 'Urutan ke-', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tujuan.direksi.jabatan_direksi', 'name' => 'tujuan.direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             
+            // (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
             (['data' => 'disposisi_to', 'name' => 'disposisi_to' , 'title' => 'Kepada', 'orderable' => false,'searchable'=> false])
             (['data' => 'keterangan', 'name' => 'urutan_ke' , 'title' => 'Keterangan', 'orderable' => false,'searchable'=> false])
         ];

@@ -16,7 +16,7 @@ class mDireksi extends Model
     use SoftDeletes;
 
     protected $fillable = [ 
-        'nama_direksi','id_direktorat'    
+        'nama_direksi','id_direktorat','jabatan_direksi' 
     ];
 
     protected $dates = ['deleted_at'];

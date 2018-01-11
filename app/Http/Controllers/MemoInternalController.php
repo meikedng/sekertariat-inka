@@ -16,6 +16,8 @@ use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use App\tDisposisiDokumen;
 use App\mDivisi;
+use App\mDireksi;
+use App\mDirektorat;
 
 class MemoInternalController extends Controller
 {
@@ -93,7 +95,27 @@ class MemoInternalController extends Controller
      */
     public function store(Request $request)
     {
+        // no urut per tahun per direksi per jenis surat
+        $doc_code = mTipeDokumen::select('code')->where('id',3)->first();
+        $no_urut = $request->nomor_urut_dokumen;
+
         $this->validate($request , [
+            'first_destination' => 'required|exists:m_direksis,id', 
+        ]);
+        
+        //get dir code
+        $first_dest = mDireksi::select('id_direktorat')
+            ->where('id',$request->first_destination)->first();
+        $direktorat = mDirektorat::select('dir_code')->where('id',$first_dest->id_direktorat)->first();
+
+        $year= Carbon::now()->year;
+        $nomor_urut_dokumen = $no_urut. '/' . $doc_code->code. 
+                    '/'. $direktorat->dir_code . '/'.$year;
+
+        $request->merge(['nomor_urut_dokumen' => $nomor_urut_dokumen]);
+
+        $this->validate($request , [
+            'nomor_urut_dokumen' => 'unique:t_dokumens,nomor_dokumen',
             'tgl_masuk' => 'required',
             'pengirim' => 'required|exists:m_divisis,id',
             'dokumen' => 'required',
@@ -106,27 +128,26 @@ class MemoInternalController extends Controller
         ]);
 
         // no urut per tahun per direksi per jenis surat
-        $doc_code = mTipeDokumen::select('code')->where('id',3)->first();
+        // $doc_code = mTipeDokumen::select('code')->where('id',3)->first();
 
-        $year= Carbon::now()->year;
-        $date_create_doc = Carbon::now()->format('dmy');
-        
-        $nomor_urut_dokumen = tDokumen::whereRaw('year(created_at) = '. $year )
-                                ->whereHas('tujuan',function ($query) use($request){
-                                    $query->where('urutan_ke',1);
-                                    $query->where('dest_direksi_id', $request->first_destination);
-                                })->count();
+    
+        // $nomor_urut_dokumen = tDokumen::whereRaw('year(created_at) = '. $year )
+        //                         ->whereHas('tujuan',function ($query) use($request){
+        //                             $query->where('urutan_ke',1);
+        //                             $query->where('dest_direksi_id', $request->first_destination);
+        //                         })->count();
 
-        $nomor_urut_dokumen++; // plus 1 
+        // $nomor_urut_dokumen++; // plus 1 
 
-        $generate_no_doc = $nomor_urut_dokumen. '/' . $doc_code->code . '/'.
-                            $request->first_destination. '/' . $date_create_doc;
+        // $generate_no_doc = $nomor_urut_dokumen. '/' . $doc_code->code . '/'.
+        //                     $request->first_destination. '/' . $date_create_doc;
 
         // create dokumen
         $dokumen = new tDokumen();
         $dokumen->tipe_dok_id = 3; // Memo Internal;
         $dokumen->tgl_masuk = $request->tgl_masuk;
-        $dokumen->nomor_dokumen = $generate_no_doc;
+        // $dokumen->nomor_dokumen = $generate_no_doc;
+        $dokumen->nomor_dokumen = $request->nomor_urut_dokumen;
         $dokumen->nomor_referensi= $request->nomor_memo;
         $dokumen->perihal = $request->dokumen;
         // cari nama unit 

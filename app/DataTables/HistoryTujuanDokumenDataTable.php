@@ -47,7 +47,9 @@ class HistoryTujuanDokumenDataTable extends DataTable
              (['data' => 'tgl_status', 'name' => 'tgl_status' , 'title' => 'Tanggal', 'orderable' => true,'searchable'=> true]),
              (['data' => 'status.description', 'name' => 'status.description' , 'title' => 'Status', 'orderable' => true,'searchable'=> true]),
              (['data' => 'tujuan.urutan_ke', 'name' => 'tujuan.urutan_ke' , 'title' => 'Urutan ke-', 'orderable' => true,'searchable'=> true]),
-             (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             (['data' => 'tujuan.direksi.jabatan_direksi', 'name' => 'tujuan.direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             
+             //  (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
              (['data' => 'keterangan', 'name' => 'urutan_ke' , 'title' => 'Keterangan', 'orderable' => false,'searchable'=> false])
         ])
         
@@ -69,7 +71,9 @@ class HistoryTujuanDokumenDataTable extends DataTable
              (['data' => 'tgl_status', 'name' => 'tgl_status' , 'title' => 'Tanggal', 'orderable' => true,'searchable'=> true]),
              (['data' => 'status.description', 'name' => 'status.description' , 'title' => 'Status', 'orderable' => true,'searchable'=> true]),
              (['data' => 'tujuan.urutan_ke', 'name' => 'tujuan.urutan_ke' , 'title' => 'Urutan ke-', 'orderable' => true,'searchable'=> true]),
-             (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             (['data' => 'tujuan.direksi.jabatan_direksi', 'name' => 'tujuan.direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
+             
+             //  (['data' => 'tujuan.direksi.nama_direksi', 'name' => 'tujuan.direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => true,'searchable'=> true]),
              (['data' => 'keterangan', 'name' => 'urutan_ke' , 'title' => 'Keterangan', 'orderable' => false,'searchable'=> false])
         ];
     }

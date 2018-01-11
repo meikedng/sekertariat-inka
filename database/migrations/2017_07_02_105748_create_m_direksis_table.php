@@ -16,6 +16,7 @@ class CreateMDireksisTable extends Migration
         Schema::create('m_direksis', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama_direksi');
+            $table->string('jabatan_direksi');
             $table->integer('id_direktorat')->unsigned();
             $table->timestamps();
             $table->softDeletes();

@@ -14,6 +14,8 @@ use App\tStatusTujuanDokumen;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use App\tDisposisiDokumen;
+use App\mDireksi;
+use App\mDirektorat;
 
 class SuratMasukEksternalController extends Controller
 {
@@ -92,7 +94,27 @@ class SuratMasukEksternalController extends Controller
      */
     public function store(Request $request)
     {
+        // no urut per tahun per direksi per jenis surat
+        $doc_code = mTipeDokumen::select('code')->where('id',2)->first();
+        $no_urut = $request->nomor_urut_dokumen;
+
         $this->validate($request , [
+            'first_destination' => 'required|exists:m_direksis,id', 
+        ]);
+        
+        //get dir code
+        $first_dest = mDireksi::select('id_direktorat')
+            ->where('id',$request->first_destination)->first();
+        $direktorat = mDirektorat::select('dir_code')->where('id',$first_dest->id_direktorat)->first();
+
+        $year= Carbon::now()->year;
+        $nomor_urut_dokumen = $no_urut. '/' . $doc_code->code. 
+                    '/'. $direktorat->dir_code . '/'.$year;
+
+        $request->merge(['nomor_urut_dokumen' => $nomor_urut_dokumen]);
+
+        $this->validate($request , [
+            'nomor_urut_dokumen' => 'unique:t_dokumens,nomor_dokumen',
             'tgl_masuk' => 'required',
             'tgl_surat' => 'required|before or equal:tgl_masuk',
             'pengirim' => 'required',
@@ -105,28 +127,28 @@ class SuratMasukEksternalController extends Controller
             'fourth_destination' => 'nullable||different:second_destination|different:third_destination|exists:m_direksis,id',                        
         ]);
 
-        // no urut per tahun per direksi per jenis surat
-        $doc_code = mTipeDokumen::select('code')->where('id',2)->first();
+        // // no urut per tahun per direksi per jenis surat
+        // $doc_code = mTipeDokumen::select('code')->where('id',2)->first();
 
-        $year= Carbon::now()->year;
-        $date_create_doc = Carbon::now()->format('dmy');
+        // $year= Carbon::now()->year;
+        // $date_create_doc = Carbon::now()->format('dmy');
         
-        $nomor_urut_dokumen = tDokumen::whereRaw('year(created_at) = '. $year )
-                                ->whereHas('tujuan',function ($query) use($request){
-                                    $query->where('urutan_ke',1);
-                                    $query->where('dest_direksi_id', $request->first_destination);
-                                })->count();
+        // $nomor_urut_dokumen = tDokumen::whereRaw('year(created_at) = '. $year )
+        //                         ->whereHas('tujuan',function ($query) use($request){
+        //                             $query->where('urutan_ke',1);
+        //                             $query->where('dest_direksi_id', $request->first_destination);
+        //                         })->count();
 
-        $nomor_urut_dokumen++; // plus 1 
+        // $nomor_urut_dokumen++; // plus 1 
 
-        $generate_no_doc = $nomor_urut_dokumen. '/' . $doc_code->code . '/'.
-                            $request->first_destination. '/' . $date_create_doc; 
+        // $generate_no_doc = $nomor_urut_dokumen. '/' . $doc_code->code . '/'.
+        //                     $request->first_destination. '/' . $date_create_doc; 
 
         // create dokumen
         $dokumen = new tDokumen();
         $dokumen->tipe_dok_id = 2; // Surat Masuk Eksternal;
         $dokumen->tgl_masuk = $request->tgl_masuk;
-        $dokumen->nomor_dokumen = $generate_no_doc;
+        $dokumen->nomor_dokumen = $request->nomor_urut_dokumen;
         $dokumen->nomor_referensi= $request->nomor_surat;
         $dokumen->perihal = $request->perihal;
         $dokumen->pengirim = $request->pengirim;

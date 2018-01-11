@@ -19,6 +19,9 @@ class DirektoratSeeder extends Seeder
 
         $list_direksi = ['R. Agus H Purnomo','Hendy Hendratno Adji','Muhammad Nur Sodiq',
                 'Yunendar Aryo Handoko'];
+        
+        $jabatan_direksi = ['Direktur Utama','Direktur Komersial dan Teknologi','Direktur Keuangan dan SDM',
+                'Direktur Produksi'];
 
         for ($i = 0; $i < count($list_direktorat);$i++){
             $direktorat = new mDirektorat;
@@ -30,6 +33,7 @@ class DirektoratSeeder extends Seeder
             $direksi = new mDireksi();
               
             $direksi->nama_direksi = $list_direksi[$i];
+            $direksi->jabatan_direksi = $jabatan_direksi[$i];
             $direksi->id_direktorat = $direktorat->id;
             $direksi->save();
         }
