@@ -63,6 +63,34 @@ class DokumenController extends Controller
         $tujuan_status->keterangan = $request->keterangan;
         $tujuan_status->tgl_status = $request->tgl_status;
         $tujuan_status->save();
+
+        if($request->status == 4) // selesai, auto-create telah diserahkan untuk dokumen selanjutnya
+        {
+            $recentTujuanDoc = tTujuanDokumen::find($tujuan_id);
+            $nextDest = $recentTujuanDoc->urutan_ke + 1;
+            // dd($tujuan_id,$recentTujuanDoc,$nextDest);
+            $nextDestofDoc = tTujuanDokumen::select('id')
+                ->where('dokumen_id',$recentTujuanDoc->dokumen_id)
+                ->where('urutan_ke',$nextDest)->first();
+
+            // dd($tujuan_id,$recentTujuanDoc,$nextDest,$nextDestofDoc);
+            
+            // belum tujuan terakhir 
+            if(!is_null($nextDestofDoc)){
+                $status = new tStatusTujuanDokumen();
+                $status->tujuan_dokumen_id = $nextDestofDoc->id; 
+                $status->status_tujuan_id = 2; // diserahkan 
+                $status->keterangan = 'Dokumen telah diserahkan';
+                $status->tgl_status = Carbon::now()->toDateString();
+                $status->save();
+            }
+            // ini tujuan terakhir, berarti closing document
+            elseif(is_null($nextDestofDoc)){
+                $document= tDokumen::find($recentTujuanDoc->dokumen_id);
+                $document->is_closed = 1;
+                $document->save();
+            }
+        }
         
         return redirect()->route('doc.show',[$route_doc,$tujuan_id]);
     }
@@ -116,9 +144,7 @@ class DokumenController extends Controller
     }
 
     public function createDisposisi($route_doc,$tujuan_id){
-        // apakah sudah pernah diserahkan
-        // $is_diserahkan = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
-        //                     ->where('status_tujuan_id',2)->count(); 
+        
         if($route_doc == 'sm_eksternal')
         {
             $text = 'Surat Masuk Eksternal';

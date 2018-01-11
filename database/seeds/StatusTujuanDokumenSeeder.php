@@ -12,8 +12,8 @@ class StatusTujuanDokumenSeeder extends Seeder
      */
     public function run()
     {
-        $list_status = ['Belum Diserahkan','Telah Diserahkan','Belum Selesai','Selesai'];
-
+        $list_status = ['Belum Diserahkan','Telah Diserahkan','Proses','Selesai'];
+        
         foreach ($list_status as $status){
             $status_doc = new mStatusTujuanDokumen();
             $status_doc->description = $status;

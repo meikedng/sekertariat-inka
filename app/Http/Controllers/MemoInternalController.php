@@ -167,6 +167,14 @@ class MemoInternalController extends Controller
         $dest1->dest_direksi_id = $request->first_destination;
         $dest1->save();
 
+        // auto create status, untuk diserahkan 
+        $status = new tStatusTujuanDokumen();
+        $status->tujuan_dokumen_id = $dest1->id; 
+        $status->status_tujuan_id = 2; // diserahkan 
+        $status->keterangan = 'Dokumen telah diserahkan';
+        $status->tgl_status = Carbon::now()->toDateString();
+        $status->save();
+
         if(!is_null($request->second_destination)){
             $dest2 = new tTujuanDokumen();
             $dest2->dokumen_id = $dokumen->id;
@@ -190,6 +198,8 @@ class MemoInternalController extends Controller
             $dest4->dest_direksi_id = $request->fourth_destination;
             $dest4->save();
         }
+
+        
 
         return redirect(route('memo_internal.index'));
     }
