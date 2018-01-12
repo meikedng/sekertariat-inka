@@ -11,7 +11,7 @@ class tDokumen extends Model
 
     protected $fillable = [ 
         'tipe_dok_id','tgl_masuk','nomor_dokumen','nomor_referensi','nama_dokumen','perihal','pengirim',
-        'tgl_dok_referensi','penerima','tgl_keluar','tgl_kembali','is_circular','is_closed'    
+        'tgl_dok_referensi','penerima','tgl_keluar','tgl_kembali','is_circular','is_closed','id_user'    
     ];
 
     protected $dates = ['deleted_at'];

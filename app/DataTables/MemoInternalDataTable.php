@@ -28,8 +28,22 @@ class MemoInternalDataTable extends DataTable
                     'show_url' => route('doc.show', ['memo_internal',$doc->id]),
                 ]);
             })
+            ->addColumn('delete', function($doc){
+                $user_id = Auth::id();
 
-            ->rawColumns(['show'])
+                if($doc->dokumen->id_user == $user_id){
+                    return view ('datatable._delete',[
+                        'model'    => $doc,
+                        'delete_url' => route('document_process.destroy', $doc->id),                    
+                        'confirm_message' => 'Yakin mau menghapus ' . $doc->nomor_dokumen . '?'
+                    ]);    
+                }else{
+                    return view ('datatable._delete_disabled');
+                    // return $doc->dokumen->user_id;
+                }
+            })
+
+            ->rawColumns(['show','delete'])
 
             ->make(true);
     }
@@ -54,7 +68,8 @@ class MemoInternalDataTable extends DataTable
              
         return $this->applyScopes($query);
     }
-/**
+
+    /**
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\Datatables\Html\Builder
@@ -67,14 +82,13 @@ class MemoInternalDataTable extends DataTable
             (['data' => 'dokumen.nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            // (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.jabatan_direksi', 'name' => 'direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
-            
-            // (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
             
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
+            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px']),
+            (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
         ])
         
         ->parameters([
@@ -94,14 +108,14 @@ class MemoInternalDataTable extends DataTable
             (['data' => 'dokumen.nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            // (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'dokumen.tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.jabatan_direksi', 'name' => 'direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
-            
-            // (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
             
             (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])            
+            (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
+       
         ];
     }
 

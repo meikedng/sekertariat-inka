@@ -347,8 +347,13 @@ class DokumenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($tujuan_id)
     {
-        //
+        $tujuan = tTujuanDokumen::find($tujuan_id);
+
+        // $dokumen = tDokumen::select('id')->where('id', $tujuan->id)->first();
+        tDokumen::destroy($tujuan->dokumen_id);
+
+        return redirect()->route('home');
     }
 }

@@ -155,6 +155,7 @@ class SuratMasukEksternalController extends Controller
         $dokumen->tgl_dok_referensi = $request->tgl_surat;
         $dokumen->is_circular = $request->jenis_dokumen;
         $dokumen->is_closed = 2; // proses
+        $dokumen->id_user = Auth::id();
         $dokumen->save();
 
         // tujuan dokumen

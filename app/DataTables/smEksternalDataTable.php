@@ -27,8 +27,22 @@ class smEksternalDataTable extends DataTable
                     'show_url' => route('doc.show', ['sm_eksternal',$doc->id]),
                 ]);
             })
+            ->addColumn('delete', function($doc){
+                $user_id = Auth::id();
 
-            ->rawColumns(['show'])
+                if($doc->dokumen->id_user == $user_id){
+                    return view ('datatable._delete',[
+                        'model'    => $doc,
+                        'delete_url' => route('document_process.destroy', $doc->id),                    
+                        'confirm_message' => 'Yakin mau menghapus ' . $doc->nomor_dokumen . '?'
+                    ]);    
+                }else{
+                    return view ('datatable._delete_disabled');
+                    // return $doc->dokumen->user_id;
+                }
+            })
+
+            ->rawColumns(['show','delete'])
 
             ->make(true);
     }
@@ -71,9 +85,9 @@ class smEksternalDataTable extends DataTable
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.jabatan_direksi', 'name' => 'direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
            
-            // (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])
+            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px']),
+            (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])
         ])
         
         ->parameters([
@@ -99,8 +113,9 @@ class smEksternalDataTable extends DataTable
            
             // (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false, 'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])            
-        ];
+            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px']),
+            (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '25px'])
+     ];
     }
 
     /**
