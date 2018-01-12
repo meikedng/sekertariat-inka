@@ -51,3 +51,11 @@ Route::get('/dokumen/{route_doc}/create_disposisi/{tujuan_id}',[
 Route::post('/dokumen/{route_doc}/store_disposisi/{tujuan_id}',[
     'as' => 'doc.store_disposisi',
     'uses' => 'DokumenController@storeDisposisi']);
+
+Route::get('/dokumen/{route_doc}/create_penerima/{tujuan_id}',[
+        'as' => 'doc.create_penerima',
+        'uses' => 'DokumenController@createPenerima']);
+
+Route::post('/dokumen/{route_doc}/store_penerima/{tujuan_id}',[
+        'as' => 'doc.store_penerima',
+        'uses' => 'DokumenController@storePenerima']);

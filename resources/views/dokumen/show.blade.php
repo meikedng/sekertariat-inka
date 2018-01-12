@@ -61,6 +61,16 @@
                                 <p> <a class="btn btn-success" href="{{ route('doc.create_disposisi',[$route,$tujuan_id]) }}">Tambah Disposisi Dokumen</a> </p>
                             </div>
                         @endif
+
+                        @if($is_done>0 && $is_last>0)
+                            {{--  <div class="col-md-3">
+                                <p> <a class="btn btn-success" href="{{ route('doc.create_disposisi',[$route,$tujuan_id]) }}">Tambah Disposisi Dokumen</a> </p>
+                            </div>  --}}
+
+                            <div class="col-md-3">
+                                <p> <a class="btn btn-danger" href="{{ route('doc.create_penerima',[$route,$tujuan_id]) }}">Pengembalian Dokumen ke Unit</a> </p>
+                            </div>
+                        @endif
                     </div>
                 @elseif($is_done_prev==0)
                     <div class="col-md-5"><p>Status pada Tujuan Sebelumnya Belum Selesai</p></div>

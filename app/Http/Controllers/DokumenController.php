@@ -119,6 +119,24 @@ class DokumenController extends Controller
         return redirect()->route('doc.show',[$route_doc,$tujuan_id]);
     }
 
+    public function storePenerima(Request $request,$route_doc, $tujuan_id){
+                
+        $this->validate($request , [
+            'tgl_penerimaan' => 'required',
+            
+            'penerima' => 'required',                        
+        ]);
+        
+        $tujuan = tTujuanDokumen::select('dokumen_id')->where('id',$tujuan_id)->first();
+        $dokumen = tDokumen::find($tujuan->dokumen_id);
+        $dokumen->penerima = $request->penerima;
+        $dokumen->tgl_keluar = $request->tgl_penerimaan;
+        $dokumen->is_closed = 1;
+        $dokumen->save();
+                
+        return redirect()->route('doc.show',[$route_doc,$tujuan_id]);
+    }
+
     public function createStatus($route_doc,$tujuan_id){
         // apakah sudah pernah diserahkan
         if($route_doc == 'sm_eksternal')
@@ -164,6 +182,27 @@ class DokumenController extends Controller
         return view('dokumen.create_disposisi')->with(compact('tujuan_id','is_diserahkan','text','route'));
     }
 
+    public function createPenerima($route_doc,$tujuan_id){
+        
+        if($route_doc == 'sm_eksternal')
+        {
+            $text = 'Surat Masuk Eksternal';
+            $route = $route_doc;
+        }
+        elseif($route_doc == 'sm_internal')
+        {
+            $text = 'Surat Masuk Internal';
+            $route = $route_doc;
+        }
+        elseif($route_doc == 'memo_internal')
+        {
+            $text = 'Memo Internal';
+            $route = $route_doc;
+        }
+
+        return view('dokumen.create_penerima')->with(compact('tujuan_id','is_diserahkan','text','route'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -193,7 +232,17 @@ class DokumenController extends Controller
         $tujuan_doc = tTujuanDokumen::where('id',$tujuan_id)->first();
         // dd($tujuan_doc);
         $dokumen = tDokumen::find($tujuan_doc->dokumen_id);
+
+        //is last dokumen
+        $tujuan_next = $tujuan_doc->urutan_ke +1;
+        // dd($tujuan_next);
+        $tujuan_next = tTujuanDokumen::where('dokumen_id',$dokumen->id)->where('urutan_ke',$tujuan_next)->first();
         
+        if(is_null($tujuan_next))
+            $is_last=1;
+        elseif(!is_null($tujuan_next))
+            $is_last=0;
+
         if ($tujuan_doc->urutan_ke==1)
         {
             $is_done_prev= 1; // karena ini tujuan pertama
@@ -315,7 +364,7 @@ class DokumenController extends Controller
 
 
         return view('dokumen.show')->with(compact('dokumen','tujuan_id','html','is_done',
-                    'is_done_prev','text','route'));
+                    'is_done_prev','text','route','is_last'));
     }
 
     /**
