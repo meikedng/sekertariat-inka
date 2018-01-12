@@ -20,5 +20,9 @@ class tDokumen extends Model
         return $this->hasMany('App\tTujuanDokumen','dokumen_id','id');
     }
 
+    public function document_status(){
+        return $this->belongsTo('App\mStatusDokumen','is_closed','id');
+    }
+
     
 }

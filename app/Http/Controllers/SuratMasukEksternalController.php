@@ -154,7 +154,7 @@ class SuratMasukEksternalController extends Controller
         $dokumen->pengirim = $request->pengirim;
         $dokumen->tgl_dok_referensi = $request->tgl_surat;
         $dokumen->is_circular = $request->jenis_dokumen;
-        $dokumen->is_closed = 0;
+        $dokumen->is_closed = 2; // proses
         $dokumen->save();
 
         // tujuan dokumen

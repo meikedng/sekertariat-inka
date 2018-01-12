@@ -52,7 +52,7 @@ class MonitoringDataTable extends DataTable
                     });
 */
 
-        $query = tDokumen::where('tipe_dok_id',$type_id);
+        $query = tDokumen::with('document_status')->where('tipe_dok_id',$type_id);
         return $this->applyScopes($query);
     }
 
@@ -66,14 +66,13 @@ class MonitoringDataTable extends DataTable
         return $this->builder()
         ->columns([
             (['data' => 'id', 'name' => 'uid' , 'title' => 'ID', 'orderable' => false,'searchable'=> false,'visible'=>false]),
-            (['data' => 'nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            // (['data' => 'tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
-            // (['data' => 'direksi.nama_direksi', 'name' => 'direksi.nama_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
-            // (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            
+            (['data' => 'nomor_dokumen', 'name' => 'nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tgl_masuk', 'name' => 'tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'pengirim', 'name' => 'pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tgl_dok_referensi', 'name' => 'tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'perihal', 'name' => 'perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'document_status.description', 'name' => 'document_status.description' , 'title' => 'Status Dokumen', 'orderable' => true,'searchable'=> true]),
+           
             (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
         ])
         
@@ -92,13 +91,13 @@ class MonitoringDataTable extends DataTable
     {
         return [
             (['data' => 'id', 'name' => 'uid' , 'title' => 'ID', 'orderable' => false,'searchable'=> false,'visible'=>false]),
-            (['data' => 'nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
-            // (['data' => 'tgl_dok_referensi', 'name' => 'dokumen.tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
-            (['data' => 'perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
-            
-            (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])            
+            (['data' => 'nomor_dokumen', 'name' => 'nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tgl_masuk', 'name' => 'tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'pengirim', 'name' => 'pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'tgl_dok_referensi', 'name' => 'tgl_dok_referensi' , 'title' => 'Tanggal Surat', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'perihal', 'name' => 'perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
+            (['data' => 'document_status.description', 'name' => 'document_status.description' , 'title' => 'Status Dokumen', 'orderable' => true,'searchable'=> true]),
+             
         ];
     }
 

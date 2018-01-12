@@ -87,7 +87,7 @@ class DokumenController extends Controller
             // ini tujuan terakhir, berarti closing document
             elseif(is_null($nextDestofDoc)){
                 $document= tDokumen::find($recentTujuanDoc->dokumen_id);
-                $document->is_closed = 1;
+                $document->is_closed = 3; // Done
                 $document->save();
             }
         }
