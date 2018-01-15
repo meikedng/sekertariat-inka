@@ -223,9 +223,74 @@ class SuratMasukInternalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     // id --> adalah id tujuan , cari kode dokumen nya dulu
     public function edit($id)
     {
-        //
+        $dokumen = tTujuanDokumen::select('dokumen_id')->where('id',$id)->first();
+        $sm_internal = tDokumen::find($dokumen->dokumen_id);
+
+        $unit_id = mDivisi::select('id')->where('division_name',$sm_internal->pengirim)->first();
+
+        if(!is_null($unit_id)){
+            $sm_internal->pengirim = $unit_id->id;
+        }
+
+        if($dokumen->is_circular==1)
+            $jenis_dokumen = "Dokumen Sirkular";
+        else
+            $jenis_dokumen = "Dokumen Biasa";
+
+       
+        $list_tujuan =  tTujuanDokumen::where('dokumen_id',$dokumen->dokumen_id)
+            ->orderBy('urutan_ke')->get();
+        $text_tujuan = '';
+
+        foreach($list_tujuan as $tujuan){
+            $direksi = mDireksi::select('id_direktorat','nama_direksi')
+                ->where('id',$tujuan->dest_direksi_id)->first();
+            $direktorat = mDirektorat::select('dir_code')
+                ->where('id',$direksi->id_direktorat)->first();                
+            
+            $text_tujuan = $text_tujuan . $tujuan->urutan_ke . '.' . 
+                            $direksi->nama_direksi. ' / ' . $direktorat->dir_code. ' <br> ';
+        }
+      
+        $is_sekdirkeu = Auth::user()->hasRole('sek_dirkeu');
+        $is_sekdirut = Auth::user()->hasRole('sek_dirut');
+        $is_sekdirkomtek = Auth::user()->hasRole('sek_dirkomtek');
+        $is_sekdirprod = Auth::user()->hasRole('sek_dirprod');
+        
+        /*
+            Hal ini digunakan karena hanya sek dirkeu yang bisa membuat dokumen sirkular
+        */
+        if($is_sekdirkeu){
+            $is_circular = [0,1];
+            $lbl_circular = ['Dokumen Biasa','Dokumen Sirkular'];
+        }
+        elseif($is_sekdirut || $is_sekdirkomtek || $is_sekdirprod)      
+        {
+            $is_circular = [0];
+            $lbl_circular = ['Dokumen Biasa'];
+        }
+        
+        for ($i=0; $i < count($is_circular) ; $i++){
+            $id = $is_circular[$i];
+            $lbl = $lbl_circular[$i];
+       
+            if($i==0){
+                 $list_circular = collect();
+                $list_circular = $list_circular->push(['id' => $id ,'label' => $lbl]);
+            } else{
+                $list_circular = $list_circular->push(['id' => $id ,'label' => $lbl]);
+            }
+        }
+
+        // pembuat dokumen adalah sekretaris dari direkisi tujuan pertama
+        $first_dest  = mSekdir::select('direksi_id')->where('user_id', Auth::id())->first();
+
+        //dd($sm_internal);
+        return view('sm_internal.edit')->with(compact('sm_internal','list_circular','first_dest','jenis_dokumen','text_tujuan'));
     }
 
     /**
@@ -237,7 +302,25 @@ class SuratMasukInternalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request , [
+            'tgl_masuk' => 'required',
+            'pengirim' => 'required|exists:m_divisis,id',
+            'perihal' => 'required',
+        ]);
+
+
+        $dokumen = tDokumen::find($id);
+        $dokumen->tgl_masuk = $request->tgl_masuk;
+        
+        $from_unit = mDivisi::select('division_name')
+            ->where('id',$request->pengirim)->first();
+
+        $dokumen->pengirim = $from_unit->division_name;
+        $dokumen->perihal = $request->perihal;
+        $dokumen->save();
+
+        
+        return redirect(route('sm_internal.index'));
     }
 
     /**

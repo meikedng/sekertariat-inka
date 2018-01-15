@@ -28,6 +28,18 @@ class MemoInternalDataTable extends DataTable
                     'show_url' => route('doc.show', ['memo_internal',$doc->id]),
                 ]);
             })
+            ->addColumn('edit', function($doc){
+                $user_id = Auth::id();
+
+                if($doc->dokumen->id_user == $user_id){
+                    return view ('datatable._edit',[
+                        'model'    => $doc,
+                        'edit_url' => route('memo_internal.edit', $doc->id),                    
+                        ]);    
+                }else{
+                    return view ('datatable._edit_disabled');
+                }
+            })
             ->addColumn('delete', function($doc){
                 $user_id = Auth::id();
 
@@ -43,7 +55,7 @@ class MemoInternalDataTable extends DataTable
                 }
             })
 
-            ->rawColumns(['show','delete'])
+            ->rawColumns(['show','delete','edit'])
 
             ->make(true);
     }
@@ -88,6 +100,7 @@ class MemoInternalDataTable extends DataTable
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
             
             (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px']),
+            (['data'=>'edit' ,'name' =>'edit' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px']),
             (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
         ])
         
@@ -112,8 +125,8 @@ class MemoInternalDataTable extends DataTable
             (['data' => 'dokumen.perihal', 'name' => 'dokumen.perihal' , 'title' => 'Perihal', 'orderable' => true,'searchable'=> true]),
             (['data' => 'direksi.jabatan_direksi', 'name' => 'direksi.jabatan_direksi' , 'title' => 'Nama Direksi', 'orderable' => false,'searchable'=> false]),
             (['data' => 'urutan_ke', 'name' => 'urutan_ke' , 'title' => 'Urutan Ke-', 'orderable' => false,'searchable'=> false]),
-            
             (['data'=>'show' ,'name' =>'show' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])            
+            (['data'=>'edit' ,'name' =>'edit' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px']),
             (['data'=>'delete' ,'name' =>'delete' , 'title' => '' ,'orderable' => false,'searchable'=> false,'exportable' => false, 'printable' => false, 'width' => '30px'])
        
         ];

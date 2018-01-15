@@ -21,7 +21,7 @@ class CreateTDokumensTable extends Migration
             // jangan dibuat unique karena aada fitur delete, means soft delete di tiap dokumen
             $table->string('nomor_referensi')->nullable();
             $table->string('nama_dokumen')->nullable();
-            $table->string('perihal');
+            $table->longtext('perihal'); // kurang panjang , updated 
             $table->string('pengirim');
             $table->date('tgl_dok_referensi')->nullable();
             $table->string('penerima')->nullable();
