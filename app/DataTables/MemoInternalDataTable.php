@@ -78,7 +78,7 @@ class MemoInternalDataTable extends DataTable
     {
         return $this->builder()
         ->columns([
-            (['data' => 'id', 'name' => 'uid' , 'title' => 'ID', 'orderable' => false,'searchable'=> false,'visible'=>false]),
+            (['data' => 'id', 'name' => 'uid' , 'title' => 'ID', 'orderable' => false,'exportable' => false,'searchable'=> false,'visible'=>false]),
             (['data' => 'dokumen.nomor_dokumen', 'name' => 'dokumen.nomor_dokumen' , 'title' => 'Nomor Dokumen', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.tgl_masuk', 'name' => 'dokumen.tgl_masuk' , 'title' => 'Tanggal Masuk', 'orderable' => true,'searchable'=> true]),
             (['data' => 'dokumen.pengirim', 'name' => 'dokumen.pengirim' , 'title' => 'Nama Pengirim', 'orderable' => true,'searchable'=> true]),
