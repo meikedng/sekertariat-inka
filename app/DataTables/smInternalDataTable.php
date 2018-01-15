@@ -40,7 +40,7 @@ class smInternalDataTable extends DataTable
                     return view ('datatable._delete_disabled');
                 }
             })
-            ->rawColumns(['show'])
+            ->rawColumns(['show','delete'])
             ->make(true);
     }
 
