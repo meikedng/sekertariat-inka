@@ -401,6 +401,10 @@ class DokumenController extends Controller
         $tujuan = tTujuanDokumen::find($tujuan_id);
 
         // $dokumen = tDokumen::select('id')->where('id', $tujuan->id)->first();
+        $dokumen = tDokumen::find($tujuan_id);
+        $dokumen->nomor_dokumen = $dokumen->nomor_dokumen . '_D' ; // flag delete di kode dokumen
+        $dokumen->save();
+        // soft delete
         tDokumen::destroy($tujuan->dokumen_id);
 
         return redirect()->route('home');
