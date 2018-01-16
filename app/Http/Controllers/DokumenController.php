@@ -346,13 +346,19 @@ class DokumenController extends Controller
                     });
             return Datatables::of($list_status_tujuan)
         
-            // ->addColumn('show', function($stat){
-            //         return view ('datatable._print',[
-            //         'model'    => $gmHeader,
-            //         'show_url' => route ('goods_movement.show', $gmHeader->id)
-            //     ]);         
-            // })
+            ->addColumn('delete', function($stat){
+                if($stat->status_tujuan_id ==2)
+                    return view ('datatable._delete_disabled');
+                else{
+                    return view ('datatable._delete',[
+                        'model'    => $stat,
+                        'delete_url' => route('document.destroy_status', $stat->id),                    
+                        'confirm_message' => 'Yakin mau menghapus status dokumen ?',
+                    ]);
+                }  
+            })
 
+            ->rawColumns(['delete'])
             
             ->make(true);
         }
@@ -360,7 +366,8 @@ class DokumenController extends Controller
         $html = $htmlBuilder
             ->addColumn(['data' => 'tgl_status', 'name' => 'tgl_status' , 'title' => 'Tanggal'])
             ->addColumn(['data' => 'status.description', 'name' => 'status.description' , 'title' => 'Status'])
-            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan']);
+            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan'])
+            ->addColumn(['data' => 'delete', 'name' => 'delete' , 'title' => '']);
       
         $switch_to = 'disposisi';
 
@@ -503,20 +510,23 @@ class DokumenController extends Controller
             $list_disposisi = tDisposisiDokumen::where('dest_doc_id',$tujuan_id);
             return Datatables::of($list_disposisi)
         
-            // ->addColumn('show', function($stat){
-            //         return view ('datatable._print',[
-            //         'model'    => $gmHeader,
-            //         'show_url' => route ('goods_movement.show', $gmHeader->id)
-            //     ]);         
-            // })
+            ->addColumn('delete', function($disp){
+                return view ('datatable._delete',[
+                    'model'    => $disp,
+                    'delete_url' => route('document.destroy_disposisi', $disp->id),                    
+                    'confirm_message' => 'Yakin mau menghapus disposisi dokumen ?',
+                ]);         
+            })
 
-            
+            ->rawColumns(['delete'])
+
             ->make(true);
         }
 
         $html = $htmlBuilder
             ->addColumn(['data' => 'disposisi_to', 'name' => 'disposisi_to' , 'title' => 'Disposisi Kepada'])
-            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan']);
+            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan'])
+            ->addColumn(['data' => 'delete', 'name' => 'delete' , 'title' => '']);
       
         $switch_to = 'status';
         
@@ -566,5 +576,27 @@ class DokumenController extends Controller
         tDokumen::destroy($tujuan->dokumen_id);
 
         return redirect()->route('home');
+    }
+
+    /*
+        Fungsi Delete Status
+    */
+    public function destroyStatus($status_id)
+    {
+        //dd($status_id);
+        $status = tStatusTujuanDokumen::find($status_id);
+        $status->delete();
+        return redirect()->back();
+    }
+
+    /* 
+        Fungsi Delete Disposisi 
+    */
+    public function destroyDisposisi($disposisi_id)
+    {
+        //dd($disposisi_id);
+        $disp = tDisposisiDokumen::find($disposisi_id);
+        $disp->delete();
+        return redirect()->back();
     }
 }
