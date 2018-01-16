@@ -36,6 +36,10 @@ Route::get('/dokumen/{route_doc}/show/{tujuan_id}',[
     'as' => 'doc.show',
     'uses' => 'DokumenController@show']);
 
+Route::get('/dokumen/{route_doc}/show_disposisi/{tujuan_id}',[
+        'as' => 'doc.show_disposisi',
+        'uses' => 'DokumenController@showDisposisi']);
+
 Route::get('/dokumen/{route_doc}/create_status/{tujuan_id}',[
     'as' => 'doc.create_status',
     'uses' => 'DokumenController@createStatus']);
