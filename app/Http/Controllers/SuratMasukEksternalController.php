@@ -127,6 +127,8 @@ class SuratMasukEksternalController extends Controller
             'fourth_destination' => 'nullable||different:second_destination|different:third_destination|exists:m_direksis,id',                        
         ]);
 
+       
+
         // // no urut per tahun per direksi per jenis surat
         // $doc_code = mTipeDokumen::select('code')->where('id',2)->first();
 
@@ -344,6 +346,11 @@ class SuratMasukEksternalController extends Controller
         $dokumen = tTujuanDokumen::select('dokumen_id')->where('id',$id)->first();
         $sm_eksternal = tDokumen::find($dokumen->dokumen_id);
 
+        $nomor_urut_dokumen = $sm_eksternal->nomor_dokumen;
+        $nomor_urut_dokumen = explode("/",$nomor_urut_dokumen);
+        // dd($nomor_urut_dokumen);
+        $nomor_urut_dokumen=$nomor_urut_dokumen[0];
+
         if($dokumen->is_circular==1)
             $jenis_dokumen = "Dokumen Sirkular";
         else
@@ -398,7 +405,8 @@ class SuratMasukEksternalController extends Controller
         $first_dest  = mSekdir::select('direksi_id')->where('user_id', Auth::id())->first();
 
         //dd($sm_internal);
-        return view('sm_eksternal.edit')->with(compact('sm_eksternal','list_circular','first_dest','jenis_dokumen','text_tujuan'));
+        return view('sm_eksternal.edit')->with(compact('sm_eksternal','list_circular',
+            'first_dest','jenis_dokumen','text_tujuan','nomor_urut_dokumen'));
     }
 
     /**
@@ -410,20 +418,61 @@ class SuratMasukEksternalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request , [
-            'tgl_masuk' => 'required',
-            'tgl_dok_referensi' => 'required|before or equal:tgl_masuk',
-            'pengirim' => 'required',
-            'perihal' => 'required',   
-            'no_referensi' => 'required',
-        ]);
+        $dokumen = tDokumen::find($id);
+        $old_number = $dokumen->nomor_dokumen;      
+
+        $new_nomor_urut = $request->nomor_urut_dokumen;
+
+        $old_format = $old_number;
+        $old_format = explode("/",$old_format);
+        $old_nomor_urut = $old_format[0];
+        
+        if($old_nomor_urut!=$new_nomor_urut)
+            $is_same = false;
+        elseif($old_nomor_urut==$new_nomor_urut)
+            $is_same=true;
+
+        $type_doc = $old_format[1];
+        $dir_code_doc = $old_format[2];
+        $year_doc = $old_format[3];
+
+        $new_doc_number = $request->nomor_urut_dokumen . '/' . $type_doc . '/' . $dir_code_doc . '/' . $year_doc;
+        $request->merge(['nomor_urut_dokumen' => $new_doc_number]);
+      
+        if($is_same){
+            $this->validate($request , [
+                'nomor_urut_dokumen' => 'required' ,
+                'tgl_masuk' => 'required',
+                'tgl_dok_referensi' => 'required|before or equal:tgl_masuk',
+                'pengirim' => 'required',
+                'perihal' => 'required',   
+                'nomor_referensi' => 'required',
+            ]);    
+        }elseif(!$is_same){
+            
+            $this->validate($request , [
+                'nomor_urut_dokumen' => 'required|unique:t_dokumens,nomor_dokumen',
+                'tgl_masuk' => 'required',
+                'tgl_dok_referensi' => 'required|before or equal:tgl_masuk',
+                'pengirim' => 'required',
+                'perihal' => 'required',   
+                'nomor_referensi' => 'required',
+            ]);
+            
+        }
 
         $dokumen = tDokumen::find($id);
+           
+        if(!$is_same){
+            $dokumen->nomor_dokumen = $request->nomor_urut_dokumen;
+        }
+            
         $dokumen->tgl_masuk = $request->tgl_masuk;
         $dokumen->tgl_dok_referensi = $request->tgl_dok_referensi;
         $dokumen->pengirim = $request->pengirim;
         $dokumen->perihal = $request->perihal;
         $dokumen->nomor_referensi = $request->no_referensi;
+        
         $dokumen->save();
 
         return redirect(route('sm_eksternal.index'));    
