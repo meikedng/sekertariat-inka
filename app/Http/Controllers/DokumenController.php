@@ -12,6 +12,7 @@ use App\tStatusTujuanDokumen;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use App\tDisposisiDokumen;
+use App\DataTables\ViewDisposisiDataTable;
 
 class DokumenController extends Controller
 {
@@ -345,13 +346,19 @@ class DokumenController extends Controller
                     });
             return Datatables::of($list_status_tujuan)
         
-            // ->addColumn('show', function($stat){
-            //         return view ('datatable._print',[
-            //         'model'    => $gmHeader,
-            //         'show_url' => route ('goods_movement.show', $gmHeader->id)
-            //     ]);         
-            // })
+            ->addColumn('delete', function($stat){
+                if($stat->status_tujuan_id ==2)
+                    return view ('datatable._delete_disabled');
+                else{
+                    return view ('datatable._delete',[
+                        'model'    => $stat,
+                        'delete_url' => route('document.destroy_status', $stat->id),                    
+                        'confirm_message' => 'Yakin mau menghapus status dokumen ?',
+                    ]);
+                }  
+            })
 
+            ->rawColumns(['delete'])
             
             ->make(true);
         }
@@ -359,12 +366,173 @@ class DokumenController extends Controller
         $html = $htmlBuilder
             ->addColumn(['data' => 'tgl_status', 'name' => 'tgl_status' , 'title' => 'Tanggal'])
             ->addColumn(['data' => 'status.description', 'name' => 'status.description' , 'title' => 'Status'])
-            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan']);
-               
-
+            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan'])
+            ->addColumn(['data' => 'delete', 'name' => 'delete' , 'title' => '']);
+      
+        $switch_to = 'disposisi';
 
         return view('dokumen.show')->with(compact('dokumen','tujuan_id','html','is_done',
-                    'is_done_prev','text','route','is_last'));
+                    'is_done_prev','text','route','is_last','switch_to'));
+
+        // return $dataTable->with('tujuan_id',$tujuan_id)
+        //             ->render('dokumen.show',
+        //             compact('dokumen','html','tujuan_id','is_done','is_done_prev','text','route','is_last'));
+    }
+
+
+    public function showDisposisi(Request $request, Builder $htmlBuilder,$route_doc,$tujuan_id)
+    {
+        if($route_doc == 'sm_eksternal')
+        {
+            $text = 'Surat Masuk Eksternal';
+            $route = $route_doc ;
+        }
+        elseif($route_doc == 'sm_internal')
+        {
+            $text = 'Surat Masuk Internal';
+            $route = $route_doc ;
+        }
+        elseif($route_doc == 'memo_internal')
+        {
+            $text = 'Memo Internal';
+            $route = $route_doc ;
+        }
+
+
+        $tujuan_doc = tTujuanDokumen::where('id',$tujuan_id)->first();
+        // dd($tujuan_doc);
+        $dokumen = tDokumen::find($tujuan_doc->dokumen_id);
+        
+        //is last dokumen
+        $tujuan_next = $tujuan_doc->urutan_ke +1;
+        $tujuan_next = tTujuanDokumen::where('dokumen_id',$dokumen->id)->where('urutan_ke',$tujuan_next)->first();
+        
+        if(is_null($tujuan_next))
+            $is_last=1;
+        elseif(!is_null($tujuan_next))
+            $is_last=0;
+
+        if ($tujuan_doc->urutan_ke==1)
+        {
+            $is_done_prev= 1; // karena ini tujuan pertama
+            $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_doc->id)
+                                    ->where('status_tujuan_id',4)
+                                    ->count();
+        }
+        
+        elseif($tujuan_doc->urutan_ke >1){
+            if($dokumen->is_circular == 0){
+                $urutan = $tujuan_doc->urutan_ke;
+                
+                $prev_urutan = $urutan - 1;
+
+                if($prev_urutan > 0){
+                    // cari tujuan sebelumnya
+                    $prev_tujuan_doc = tTujuanDokumen::where('dokumen_id',$dokumen->id)
+                                    ->where('urutan_ke',$prev_urutan)
+                                    ->first();   
+
+                    // apakah tujuan sebelumnya selesai ?
+                    $is_done_prev = tStatusTujuanDokumen::where('tujuan_dokumen_id',$prev_tujuan_doc->id)
+                                    ->where('status_tujuan_id',4)
+                                    ->count();
+
+                    
+                    if($is_done_prev > 0){
+                        $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
+                            ->where('status_tujuan_id',4)
+                            ->count();
+                    }else{
+                        $is_done =0;
+                    }
+
+                }elseif($prev_urutan == 0){
+                        $is_done_prev = 1;    
+                        $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
+                            ->where('status_tujuan_id',4)
+                            ->count();
+                        
+                }                
+            }elseif($dokumen->is_circular==1){
+                $urutan = $tujuan_doc->urutan_ke;
+                $prev_urutan = $urutan - 1;
+                
+                // urutan 2 dan 3 bisa saling mendahului
+                if($prev_urutan == 1 || $prev_urutan == 2){
+                    // boleh saling mendahului asalkan 
+                    // tujuan pertama telah selesai
+                    $prev_tujuan_doc = tTujuanDokumen::where('dokumen_id',$dokumen->id)
+                                    ->where('urutan_ke',1)
+                                    ->first(); 
+
+                    $is_done_prev = tStatusTujuanDokumen::where('tujuan_dokumen_id',$prev_tujuan_doc->id)
+                                    ->where('status_tujuan_id',4)
+                                    ->count();
+
+                    $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
+                            ->where('status_tujuan_id',4)
+                            ->count();
+                }elseif($prev_urutan==3){
+                    $second_tujuan_doc = tTujuanDokumen::where('dokumen_id',$dokumen->id)
+                                    ->where('urutan_ke',2)
+                                    ->first(); 
+
+                    $is_done_second = tStatusTujuanDokumen::where('tujuan_dokumen_id',$second_tujuan_doc->id)
+                                    ->where('status_tujuan_id',4)
+                                    ->count();
+
+                    $third_tujuan_doc = tTujuanDokumen::where('dokumen_id',$dokumen->id)
+                                    ->where('urutan_ke',3)
+                                    ->first(); 
+
+                    $is_done_third = tStatusTujuanDokumen::where('tujuan_dokumen_id',$third_tujuan_doc->id)
+                                    ->where('status_tujuan_id',4)
+                                    ->count();
+
+                    if($is_done_second >0 && $is_done_third > 0){
+                        $is_done_prev = 1;
+
+                        $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
+                            ->where('status_tujuan_id',4)
+                            ->count();
+                    }elseif($is_done_second == 0 || $is_done_third == 0){
+                        $is_done_prev = 0;
+
+                        $is_done = tStatusTujuanDokumen::where('tujuan_dokumen_id',$tujuan_id)
+                            ->where('status_tujuan_id',4)
+                            ->count();
+                    }
+                }
+            }
+        }
+        
+        if($request->ajax()){
+            $list_disposisi = tDisposisiDokumen::where('dest_doc_id',$tujuan_id);
+            return Datatables::of($list_disposisi)
+        
+            ->addColumn('delete', function($disp){
+                return view ('datatable._delete',[
+                    'model'    => $disp,
+                    'delete_url' => route('document.destroy_disposisi', $disp->id),                    
+                    'confirm_message' => 'Yakin mau menghapus disposisi dokumen ?',
+                ]);         
+            })
+
+            ->rawColumns(['delete'])
+
+            ->make(true);
+        }
+
+        $html = $htmlBuilder
+            ->addColumn(['data' => 'disposisi_to', 'name' => 'disposisi_to' , 'title' => 'Disposisi Kepada'])
+            ->addColumn(['data' => 'keterangan', 'name' => 'keterangan' , 'title' => 'Keterangan'])
+            ->addColumn(['data' => 'delete', 'name' => 'delete' , 'title' => '']);
+      
+        $switch_to = 'status';
+        
+        return view('dokumen.show')->with(compact('dokumen','tujuan_id','html','is_done',
+                    'is_done_prev','text','route','is_last','switch_to'));
+
     }
 
     /**
@@ -408,5 +576,27 @@ class DokumenController extends Controller
         tDokumen::destroy($tujuan->dokumen_id);
 
         return redirect()->route('home');
+    }
+
+    /*
+        Fungsi Delete Status
+    */
+    public function destroyStatus($status_id)
+    {
+        //dd($status_id);
+        $status = tStatusTujuanDokumen::find($status_id);
+        $status->delete();
+        return redirect()->back();
+    }
+
+    /* 
+        Fungsi Delete Disposisi 
+    */
+    public function destroyDisposisi($disposisi_id)
+    {
+        //dd($disposisi_id);
+        $disp = tDisposisiDokumen::find($disposisi_id);
+        $disp->delete();
+        return redirect()->back();
     }
 }

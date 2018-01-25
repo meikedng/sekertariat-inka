@@ -24,6 +24,15 @@ Route::resource('memo_internal','MemoInternalController');
 Route::resource('document_process','DokumenController');
 Route::resource('monitoring_dokumen','MonitoringDokumenController');
 
+Route::delete('/destroy_status/{status_id}',[
+    'as' => 'document.destroy_status',
+    'uses' => 'DokumenController@destroyStatus']);
+
+Route::delete('/destroy_disposisi/{disposisi_id}',[
+    'as' => 'document.destroy_disposisi',
+    'uses' => 'DokumenController@destroyDisposisi']);
+
+
 Route::get('/monitoring/{route_doc}',[
     'as' => 'monitoring.show',
     'uses' => 'MonitoringDokumenController@showTipeDoc']);
@@ -35,6 +44,10 @@ Route::get('/monitoring/{route_doc}/disposisi',[
 Route::get('/dokumen/{route_doc}/show/{tujuan_id}',[
     'as' => 'doc.show',
     'uses' => 'DokumenController@show']);
+
+Route::get('/dokumen/{route_doc}/show_disposisi/{tujuan_id}',[
+        'as' => 'doc.show_disposisi',
+        'uses' => 'DokumenController@showDisposisi']);
 
 Route::get('/dokumen/{route_doc}/create_status/{tujuan_id}',[
     'as' => 'doc.create_status',

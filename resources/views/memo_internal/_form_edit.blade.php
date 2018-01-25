@@ -5,10 +5,21 @@
             {!! $errors->first('nomor_urut_dokumen', '<p class= "help-block">:message</p>') !!}
         </div>
 </div>  --}}
-
-<div class= "form-group{{ $errors->has('nomor_dokumen') ? 'has-error': '' }} ">
+<div class= "form-group{{ $errors->has('lbl_nomor_dokumen') ? 'has-error': '' }} ">
     <div class="col-md-4 control-label">No. Dokumen</div>
     <div class="col-md-5"> {{ ($memo_internal->nomor_dokumen) }}</div>
+</div>
+
+<div class= "form-group{{ $errors->has('nomor_urut_dokumen') ? 'has-error': '' }} ">
+    {!! Form::label('nomor_urut_dokumen', 'Nomor Urut Dokumen', ['class'=>'col-md-4 control-label']) !!}
+    <div class = "col-md-5">
+        {!! Form::number('nomor_urut_dokumen',$nomor_urut_dokumen, 
+            [
+                'class'=>'nomor_urut_dokumen',
+                'placeholder'=>'Isi Nomor Urut Dokumen'
+            ]) !!}
+        {!! $errors->first('nomor_urut_dokumen', '<p class= "help-block">:message</p>') !!}
+    </div>
 </div>
 
 <div class= "form-group{{ $errors->has('tgl_masuk') ? 'has-error': '' }} ">

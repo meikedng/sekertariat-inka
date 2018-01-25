@@ -225,6 +225,10 @@ class MemoInternalController extends Controller
     {
         $dokumen = tTujuanDokumen::select('dokumen_id')->where('id',$id)->first();
         $memo_internal = tDokumen::find($dokumen->dokumen_id);
+        
+        $nomor_urut_dokumen = $memo_internal->nomor_dokumen;
+        $nomor_urut_dokumen = explode("/",$nomor_urut_dokumen);
+        $nomor_urut_dokumen=$nomor_urut_dokumen[0];
 
         $unit_id = mDivisi::select('id')->where('division_name',$memo_internal->pengirim)->first();
 
@@ -286,7 +290,8 @@ class MemoInternalController extends Controller
         $first_dest  = mSekdir::select('direksi_id')->where('user_id', Auth::id())->first();
 
         //dd($sm_internal);
-        return view('memo_internal.edit')->with(compact('memo_internal','list_circular','first_dest','jenis_dokumen','text_tujuan'));
+        return view('memo_internal.edit')->with(compact('memo_internal','list_circular','first_dest',
+            'jenis_dokumen','text_tujuan','nomor_urut_dokumen'));
     }
 
 
@@ -299,14 +304,50 @@ class MemoInternalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request , [
-            'tgl_masuk' => 'required',
-            'pengirim' => 'required|exists:m_divisis,id',
-            'perihal' => 'required',
-            'nomor_referensi' => 'required'
-        ]);
-        
         $dokumen = tDokumen::find($id);
+        $old_number = $dokumen->nomor_dokumen;      
+
+        $new_nomor_urut = $request->nomor_urut_dokumen;
+
+        $old_format = $old_number;
+        $old_format = explode("/",$old_format);
+        $old_nomor_urut = $old_format[0];
+        
+        if($old_nomor_urut!=$new_nomor_urut)
+            $is_same = false;
+        elseif($old_nomor_urut==$new_nomor_urut)
+            $is_same=true;
+
+        $type_doc = $old_format[1];
+        $dir_code_doc = $old_format[2];
+        $year_doc = $old_format[3];
+
+        $new_doc_number = $request->nomor_urut_dokumen . '/' . $type_doc . '/' . $dir_code_doc . '/' . $year_doc;
+        $request->merge(['nomor_urut_dokumen' => $new_doc_number]);
+
+        if($is_same){
+            $this->validate($request , [
+                'nomor_urut_dokumen' => 'requWired',
+                'tgl_masuk' => 'required',
+                'pengirim' => 'required|exists:m_divisis,id',
+                'perihal' => 'required',
+                'nomor_referensi' => 'required'
+            ]);
+        }elseif(!$is_same){
+            $this->validate($request , [
+                'nomor_urut_dokumen' => 'required|unique:t_dokumens,nomor_dokumen',
+                'tgl_masuk' => 'required',
+                'pengirim' => 'required|exists:m_divisis,id',
+                'perihal' => 'required',
+                'nomor_referensi' => 'required'
+            ]);
+        }
+        
+        
+        if(!$is_same){
+            $dokumen->nomor_dokumen = $request->nomor_urut_dokumen;
+        }
+        
         $dokumen->tgl_masuk = $request->tgl_masuk;
         
         $from_unit = mDivisi::select('division_name')
