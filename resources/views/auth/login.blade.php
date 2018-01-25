@@ -38,7 +38,7 @@
               <ul class="navbar-nav ml-auto">
                   <li class="nav-item">
                       {{-- <a href="{{ url('/') }}" class="nav-link"><i class="nc-icon nc-bank"></i> Home</a> --}}
-                      <a href="{{ url('/') }}" class="btn btn-warning btn-round">Home</a>
+                      <a href="{{ url('/') }}" class="btn btn-purple btn-round">Home</a>
                   </li>
               </ul>
           </div>
@@ -54,17 +54,17 @@
                                 <h3 class="title">Sekretariat</h3>
                             <form action="{{ route('login') }}" method="POST" class="register-form">
                                 {{ csrf_field() }}
-                                <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}" style="border-color: #605ca8; border-style: solid; border-width: 2px; border-radius: 8px;">
+                                <div class="form-group has-feedback{{ $errors->has('nip') ? ' has-error' : '' }}" style="border-color: #605ca8; border-style: solid; border-width: 2px; border-radius: 8px;">
                                     <div class="input-group form-group-no-border">
                                         <span class="input-group-addon">
                                             <i class="nc-icon nc-badge"></i>
                                         </span>
-                                        <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Username" required autofocus>
+                                        <input id="nip" type="text" class="form-control" name="nip" value="{{ old('nip') }}" placeholder="Username" required autofocus>
                                     </div>
                                 </div>
                                   <span class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
-                                  @if ($errors->has('email'))
-                                      <span class="help-block" style="color: #f5593d;">{{ $errors->first('email') }}</span>
+                                  @if ($errors->has('nip'))
+                                      <span class="help-block" style="color: #f5593d;">{{ $errors->first('nip') }}</span>
                                   @endif
                                 <div class="form-group has-feedback{{ $errors->has('password') ? ' has-error' : '' }}" style="border-color: #605ca8; border-style: solid; border-width: 2px; border-radius: 8px;">
                                     <div class="input-group form-group-no-border">
@@ -79,7 +79,7 @@
                                   @if ($errors->has('password'))
                                     <span class="help-block" style="color: #f5593d;">{{ $errors->first('password') }}</span>
                                   @endif
-                                    <button type="submit" class="btn btn-warning btn-block btn-round">Sign In</button>    
+                                    <button type="submit" class="btn btn-purple btn-block btn-round">Sign In</button>    
                             </form>
                             </div>
                         </div>

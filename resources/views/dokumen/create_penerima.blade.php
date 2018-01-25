@@ -11,7 +11,7 @@
             <li> <a href = "{{ route($route.'.index') }}"> {!! $text!!}</a>
             <li class= "active"> Tambah Penerima Dokumen</li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Tambah Penerima Dokumen</h3>
         </div>

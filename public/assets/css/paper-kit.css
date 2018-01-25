@@ -542,6 +542,42 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   border-top-color: #FFFFFF;
 }
 
+/*
+btn-purple(costum)
+*/
+.btn-purple {
+  background-color: #605ca8;
+  border-color: #605ca8;
+  color: #FFFFFF;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.btn-purple:hover, .btn-purple:focus, .btn-purple:active, .btn-purple.active, .show > .btn-purple.dropdown-toggle {
+  background-color: #545096;
+  color: #FFFFFF;
+  border-color: #545096;
+}
+.btn-purple .caret {
+  border-top-color: #FFFFFF;
+}
+.btn-purple.btn-link {
+  color: #605ca8;
+}
+.btn-purple.btn-link:hover, .btn-purple.btn-link:focus, .btn-purple.btn-link:active, .btn-purple.btn-link.active, .open > .btn-purple.btn-link.dropdown-toggle {
+  background-color: transparent;
+  color: #545096;
+}
+.btn-purple.btn-link .caret {
+  border-top-color: #605ca8;
+}
+.btn-purple .caret {
+  border-top-color: #FFFFFF;
+}
+
+/*
+btn-purple(costum)
+*/
+
 .btn-danger {
   background-color: #f5593d;
   border-color: #f5593d;
@@ -2655,7 +2691,7 @@ textarea.form-control {
 .card-register {
   background-color: #d2d6de;
   border-radius: 8px;
-  border-color: #eea236;
+  border-color: #555299;
   border-style: solid;
   border-width: 5px;
   color: #fff;

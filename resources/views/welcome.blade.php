@@ -39,10 +39,10 @@
                     <li class="nav-item">
                         @if (Auth::check())
                             {{-- <a href="{{ url('/home') }}" class="nav-link"><i class="nc-icon nc-bank"></i> Home</a> --}}
-                            <a href="{{ url('/home') }}" class="btn btn-warning btn-round">Home</a>
+                            <a href="{{ url('/home') }}" class="btn btn-purple btn-round">Home</a>
                         @else
                             {{-- <a href="{{ url('/login') }}" class="nav-link"><i class="nc-icon nc-circle-10"></i> Login</a> --}}
-                            <a href="{{ url('/login') }}" class="btn btn-warning btn-round">Login</a>
+                            <a href="{{ url('/login') }}" class="btn btn-purple btn-round">Login</a>
                             {{-- <a href="{{ url('/register') }}">Register</a> --}}
                         @endif
                     </li>

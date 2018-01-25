@@ -11,7 +11,7 @@
             <li> <a href = "{{ route('sm_internal.index') }}"> Surat Masuk Internal</a>
             <li class= "active"> Tambah Surat Masuk Internal </li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Tambah Surat Masuk Internal</h3>
         </div>

@@ -10,7 +10,7 @@
             <li> <a href = "{{ url('home')}}"> Surat Masuk Eksternal </a></li>
             <li class = "active" > Surat Masuk Eksternal </a> </li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Surat Masuk Eksternal</h3>
         </div>

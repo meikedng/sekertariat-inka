@@ -10,7 +10,7 @@
             <li> <a href = "{{ url('home')}}"> Dokumen </a></li>
             <li class = "active" > Monitoring Dokumen </a> </li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Monitoring Dokumen</h3>
         </div>

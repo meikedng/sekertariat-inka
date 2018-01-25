@@ -11,7 +11,7 @@
             <li> <a href = "{{ route('sm_eksternal.index') }}"> Surat Masuk Eksternal</a>
             <li class= "active"> Tambah Surat Masuk Eksternal </li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Tambah Surat Masuk Eksternal</h3>
         </div>
