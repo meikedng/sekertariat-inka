@@ -11,7 +11,7 @@
             <li> <a href = "{{ route('memo_internal.index') }}"> Memo Internal</a>
             <li class= "active"> Tambah Memo Internal </li>
         </ul>
-    <div class="box box-primary">
+    <div class="box box-purple">
         <div class="box-header">
             <h3 class="box-title">Tambah Memo Internal</h3>
         </div>

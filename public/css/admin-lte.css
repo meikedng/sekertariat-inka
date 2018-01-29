@@ -13282,6 +13282,16 @@ a:focus {
   border-top-color: #3c8dbc;
 }
 
+/*
+box-purple(costum)
+*/
+.box.box-purple {
+  border-top-color: #555299;
+}
+/*
+box-purple(costum)
+*/
+
 .box.box-info {
   border-top-color: #00c0ef;
 }
@@ -13371,6 +13381,27 @@ a:focus {
 .box.box-solid.box-primary > .box-header .btn {
   color: #ffffff;
 }
+
+/*
+box-purple(costum)
+*/
+.box.box-solid.box-purple {
+  border: 1px solid #555299;
+}
+
+.box.box-solid.box-purple > .box-header {
+  color: #ffffff;
+  background: #555299;
+  background-color: #555299;
+}
+
+.box.box-solid.box-purple > .box-header a,
+.box.box-solid.box-purple > .box-header .btn {
+  color: #ffffff;
+}
+/*
+box-purple(costum)
+*/
 
 .box.box-solid.box-info {
   border: 1px solid #00c0ef;
