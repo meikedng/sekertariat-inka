@@ -132,9 +132,9 @@ class DokumenController extends Controller
         $dokumen = tDokumen::find($tujuan->dokumen_id);
         $dokumen->penerima = $request->penerima;
         $dokumen->tgl_keluar = $request->tgl_penerimaan;
-        $dokumen->is_closed = 1;
+        $dokumen->is_closed = 3; // Dokumen
         $dokumen->save();
-                
+        
         return redirect()->route('doc.show',[$route_doc,$tujuan_id]);
     }
 
