@@ -72,3 +72,5 @@ Route::get('/dokumen/{route_doc}/create_penerima/{tujuan_id}',[
 Route::post('/dokumen/{route_doc}/store_penerima/{tujuan_id}',[
         'as' => 'doc.store_penerima',
         'uses' => 'DokumenController@storePenerima']);
+
+Route::resource('profile','ProfileController');

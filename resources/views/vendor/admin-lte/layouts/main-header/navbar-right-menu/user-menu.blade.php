@@ -13,12 +13,11 @@
             <img src="@yield('user-avatar', 'https://www.gravatar.com/avatar/?d=mm')" class="img-circle" alt="User Image">
 
             <p>
-                @yield('user-name', 'Alexander Pierce') - Web Developer
-                <small>Member since Nov. 2012</small>
+                @yield('user-name', 'Alexander Pierce')
             </p>
         </li>
         <!-- Menu Body -->
-        <li class="user-body">
+        {{-- <li class="user-body">
             <div class="row">
                 <div class="col-xs-4 text-center">
                     <a href="#">Followers</a>
@@ -31,11 +30,11 @@
                 </div>
             </div>
             <!-- /.row -->
-        </li>
+        </li> --}}
         <!-- Menu Footer-->
         <li class="user-footer">
             <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">Profile</a>
             </div>
             <div class="pull-right">
                 <form action="{{ route('logout') }}" method="POST">

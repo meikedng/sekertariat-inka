@@ -16,7 +16,7 @@
   <!-- Styles -->
   @section('styles')
   <link href="{{ mix('/css/admin-lte.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{{ asset('images/log.png') }}}">
+    <link rel="shortcut icon" href="{{{ asset('assets/img/log.png') }}}">
     <link href="/css/jquery.dataTables.css" rel="stylesheet">
     <link href="/css/datatables.bootstrap.css" rel="stylesheet">
     <link href="/css/selectize.css" rel="stylesheet">
